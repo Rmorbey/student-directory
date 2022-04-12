@@ -1,19 +1,22 @@
 def input_students
   puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
-  #create an empty array
-  students = []
-  #get the first name
   name = gets.chomp
-  #while the name is not empty, repeat this code
+  students = []
+  puts "Please enter their cohort"
+  cohort = gets.chomp.to_sym
+  puts "To finish, just hit return twice"
   while !name.empty? do
-    #add the student hash to the array
-    students << {name: name, cohort: :november}
+    if !cohort.empty?
+      students << {name: name, cohort: cohort}
+    else
+      students << {name: name, cohort: :november}
+    end
     puts "Now we have #{students.count} students"
-    #get another name from the user
+    puts "Name"
     name = gets.chomp
+    puts "Cohort"
+    cohort = gets.chomp
   end
-  #return the array of students
   students
 end
 
@@ -24,7 +27,7 @@ end
 
 def print(students)
   students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)".center(40)
+    puts "#{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 
