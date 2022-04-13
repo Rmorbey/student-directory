@@ -1,22 +1,19 @@
 def input_students
   puts "Please enter the names of the students"
-  name = gets.chomp
   students = []
-  puts "Please enter their cohort"
-  cohort = gets.chomp.to_sym
-  puts "To finish, just hit return twice"
+  name = gets.chomp
   while !name.empty? do
-    if !cohort.empty?
-      students << {name: name, cohort: cohort}
+    students << {name: name, cohort: :november}
+    if students.length == 1
+      puts "Now we have 1 student"
     else
-      students << {name: name, cohort: :november}
-    end
     puts "Now we have #{students.count} students"
+    end
+    puts "To finish, just hit return twice"
     puts "Name"
     name = gets.chomp
-    puts "Cohort"
-    cohort = gets.chomp
   end
+  #return the array of students
   students
 end
 
@@ -26,20 +23,8 @@ def print_header
 end
 
 def print(students)
-  cohorts = {}
-  students.map do |student|
-    cohorts[(student[:cohort])] = [] if !cohorts.include?(student[:cohort])
-  end
-
-  students.map do |student|
-    cohorts[(student[:cohort])] << {name: student[:name] }
-  end
-
-  cohorts.each do |key, value|
-    puts "Students in #{key} cohort:"
-    value.each do |person|
-      puts "Name: #{person[:name]}"
-    end
+  students.each do |student|
+    puts "#{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 
