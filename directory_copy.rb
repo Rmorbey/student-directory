@@ -1,19 +1,19 @@
 def input_students
   puts "Please enter the names of the students"
+  puts "To finish, just hit return twice"
+
   students = []
-  name = gets.chomp
+
+  name = gets.strip
+
   while !name.empty? do
+
     students << {name: name, cohort: :november}
-    if students.length == 1
-      puts "Now we have 1 student"
-    else
     puts "Now we have #{students.count} students"
-    end
-    puts "To finish, just hit return twice"
-    puts "Name"
-    name = gets.chomp
+
+    name = gets.strip
   end
-  #return the array of students
+
   students
 end
 
@@ -33,7 +33,7 @@ def print_footer(names)
 end
 
 students = input_students
-#nothing happens until we call the methods
+
 print_header
 print(students)
 print_footer(students)
