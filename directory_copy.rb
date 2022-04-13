@@ -4,22 +4,24 @@ def input_students
 
   students = []
 
-  name = gets.strip
+  name = gets.chomp
 
   while !name.empty? do
 
     students << {name: name, cohort: :november}
     puts "Now we have #{students.count} students"
 
-    name = gets.strip
+    name = gets.chomp
   end
 
   students
 end
 
-def print_header
+def print_header(students)
+  if students.count > 0
   puts "The students of Villains Academy"
   puts "-------------"
+  end
 end
 
 def print(students)
@@ -29,11 +31,14 @@ def print(students)
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+  if names.length == 0
+    puts "We do not have any students!"
+    else
+    puts "Overall, we have #{names.count} great students"
+  end
 end
 
 students = input_students
-
-print_header
+print_header(students)
 print(students)
 print_footer(students)
