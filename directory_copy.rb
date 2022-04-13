@@ -26,8 +26,20 @@ def print_header
 end
 
 def print(students)
-  students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  cohorts = {}
+  students.map do |student|
+    cohorts[(student[:cohort])] = [] if !cohorts.include?(student[:cohort])
+  end
+
+  students.map do |student|
+    cohorts[(student[:cohort])] << {name: student[:name] }
+  end
+
+  cohorts.each do |key, value|
+    puts "Students in #{key} cohort:"
+    value.each do |person|
+      puts "Name: #{person[:name]}"
+    end
   end
 end
 
