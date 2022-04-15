@@ -23,14 +23,19 @@ def process(selection)
   case selection
   when "1"
     input_students
+    puts "Successfully entered a new student."
   when "2"
     show_students
+    puts "Here is a list of our great students."
   when "3"
     save_students
+    puts "Successfully saved student list."
   when "4"
     try_load_students
+    puts "Successfully loaded student list."
   when "9"
     exit # this will cause the program to terminate
+    puts "Thank you for visiting, have a nice day."
   else
     puts "I don't know what you mean, try again"
   end
@@ -96,7 +101,6 @@ end
 def try_load_students
   filename = ARGV.first || "students.csv" # first argument from the command line
   load_students(filename)
-  puts "Loaded #{@students.count} from #{filename}"
 end
 
 try_load_students
