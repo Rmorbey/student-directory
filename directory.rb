@@ -28,7 +28,7 @@ def process(selection)
   when "3"
     save_students
   when "4"
-    load_students
+    try_load_students
   when "9"
     exit # this will cause the program to terminate
   else
@@ -84,7 +84,7 @@ def save_students
   file.close
 end
 
-def load_students(filename = "students.csv")
+def load_students(filename)
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
@@ -94,15 +94,9 @@ def load_students(filename = "students.csv")
 end
 
 def try_load_students
-  filename = ARGV.first # first argument from the command line
-  return if filename.nil? # get out of the method if it isn't given
-  if File.exist?(filename) # if it exists
-    load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
-  else # if it doesn't exist
-    puts "Sorry, #{filename} doesn't exist."
-    exit # quit the program
-  end
+  filename = ARGV.first || "students.csv" # first argument from the command line
+  load_students(filename)
+  puts "Loaded #{@students.count} from #{filename}"
 end
 
 try_load_students
