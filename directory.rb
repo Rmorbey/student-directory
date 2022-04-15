@@ -7,8 +7,8 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to a file"
+  puts "4. Load the list from a file"
   puts "9. Exit" #9 because we'll be adding more items
 end
 
@@ -23,34 +23,34 @@ def process(selection)
   case selection
   when "1"
     input_students
-    puts "Successfully entered a new student."
+    puts "Successfully entered a new student.".center(80, '-')
   when "2"
     show_students
-    puts "Here is a list of our great students."
+    puts "Here is a list of our great students.".center(80, '-')
   when "3"
     save_students
-    puts "Successfully saved student list."
+    puts "Successfully saved student list.".center(80, '-')
   when "4"
-    try_load_students
-    puts "Successfully loaded student list."
+    load_students
+    puts "Successfully loaded student list.".center(80, '-')
   when "9"
+    puts "Thank you for visiting, have a nice day.".center(80, '-')
     exit # this will cause the program to terminate
-    puts "Thank you for visiting, have a nice day."
   else
-    puts "I don't know what you mean, try again"
+    puts "I don't know what you mean, try again.".center(80, '-')
   end
 end
 
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
+  puts "Please enter the name of the students".center(80, '=')
+  puts "To finish, just hit return twice".center(80, '=')
   # get the first name
   name = STDIN.gets.chomp
   # while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
     add_student(name, "november")
-    puts "Now we have #{@students.count} students"
+    puts "Now we have #{@students.count} students".center(80)
     # get another name from the user
     name = STDIN.gets.chomp
   end
@@ -63,8 +63,8 @@ def show_students
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts "The students of Villains Academy".center(80)
+  puts "-------------".center(80, '-')
 end
 
 def print_students_list
@@ -74,12 +74,16 @@ def print_students_list
 end
 
 def print_footer
-  puts "Overall, we have #{@students.count} great students"
+  puts "Overall, we have #{@students.count} great students".center(80)
 end
 
 def save_students
   # open the file for writing
-  file = File.open("students.csv", "w")
+  puts "The default file is: #{filename}."
+  puts "Enter the name of a different file, or press return for the default file."
+  input = STDIN.gets.chomp
+  input.empty? ? save_file = filename : save_file = input
+  file = File.open(save_file, "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -87,21 +91,28 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts "Chosen File: #{save_file}."
 end
 
-def load_students(filename)
-  file = File.open(filename, "r")
+def load_students
+  load_file = filename
+  file = File.open(load_file, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
     add_student(name, cohort)
   end
   file.close
+  puts "Chosen File: #{load_file}."
 end
 
-def try_load_students
-  filename = ARGV.first || "students.csv" # first argument from the command line
-  load_students(filename)
+def filename
+  ARGV.first.nil? ? "students.csv" : ARGV.first.chomp
 end
 
-try_load_students
+def default_load_students
+  load_students
+  puts "Loaded #{@students.count} from #{filename}."
+end
+
+default_load_students
 interactive_menu
