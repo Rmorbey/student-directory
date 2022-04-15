@@ -83,25 +83,25 @@ def save_students
   puts "Enter the name of a different file, or press return for the default file."
   input = STDIN.gets.chomp
   input.empty? ? save_file = filename : save_file = input
-  file = File.open(save_file, "w")
+  file = File.open(save_file, "w") do |file|
   # iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
-  file.close
   puts "Chosen File: #{save_file}."
 end
 
 def load_students
   load_file = filename
-  file = File.open(load_file, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    add_student(name, cohort)
+  file = File.open(load_file, "r") do |file|
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(',')
+      add_student(name, cohort)
+    end
   end
-  file.close
   puts "Chosen File: #{load_file}."
 end
 
